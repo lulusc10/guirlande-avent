@@ -5,188 +5,245 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Oh une guirlande, viens on y va !</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: Arial, sans-serif;
       color: #fffbeb;
       background: linear-gradient(180deg, #6b111c 0%, #164a32 55%, #092418 100%);
       padding: 20px 14px 40px;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    .kitsch-bg,
-    .snow-layer {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .kitsch-bg {
-      z-index: 0;
-    }
-
-    .snow-layer {
-      z-index: 1;
-    }
-
-    .kitsch-item {
-      position: absolute;
-      font-size: 28px;
-      opacity: 0.9;
-    }
-
-    .snowflake {
-      position: absolute;
-      top: -20px;
-      color: #ffffff;
-      animation: fall linear infinite;
-    }
-
-    @keyframes fall {
-      from { transform: translateY(-20px); }
-      to { transform: translateY(105vh); }
-    }
-
-    .app {
-      position: relative;
-      z-index: 2;
-      max-width: 450px;
-      margin: 0 auto;
       text-align: center;
     }
 
-    h1 {
-      margin: 6px 0 8px;
-      font-size: 23px;
-      line-height: 1.25;
-    }
-
-    .subtitle {
-      margin: 0 0 18px;
-      font-size: 15px;
-      line-height: 1.4;
-      color: #fef9c3;
-    }
-
-    .box {
-      background: rgba(14, 36, 25, 0.88);
+    .boite {
+      max-width: 440px;
+      margin: 0 auto 16px auto;
+      background: rgba(12, 32, 22, 0.9);
       border: 2px solid #facc15;
       border-radius: 18px;
       padding: 16px;
-      margin-bottom: 16px;
     }
 
-    .garland {
+    h1 {
+      font-size: 22px;
+      margin: 6px 0 8px 0;
+    }
+
+    p {
+      font-size: 15px;
+      margin: 0 0 16px 0;
+      color: #fef9c3;
+    }
+
+    .guirlande {
       position: relative;
-      height: 115px;
-      width: 100%;
+      height: 100px;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding-top: 14px;
     }
 
-    .wire {
+    .fil {
       position: absolute;
-      top: 22px;
-      left: 4%;
-      width: 92%;
-      height: 18px;
+      top: 14px;
+      left: 5%;
+      width: 90%;
+      height: 14px;
       border-top: 4px solid #fef08a;
       border-radius: 50%;
     }
 
-    .bulbs-row {
+    .ampoule-bloc {
       position: relative;
       z-index: 2;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 14px 6px 0;
-    }
-
-    .bulb-btn {
-      background: transparent;
+      background: none;
       border: none;
       padding: 0;
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
-    .socket {
+    .douille {
       width: 14px;
       height: 8px;
+      margin: 0 auto;
       background: #1e293b;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #ffffff;
       border-radius: 3px 3px 0 0;
     }
 
-    .bulb {
-      width: 40px;
-      height: 54px;
+    .ampoule {
+      width: 38px;
+      height: 52px;
       border-radius: 50% 50% 42% 42%;
-      background-color: #64748b;
+      background: #64748b;
       border: 2px solid #ffffff;
-      transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
     }
 
-    .bulb-btn.selected .bulb {
-      transform: scale(1.08);
-      box-shadow: 0 0 0 3px #fef08a;
+    .selectionnee .ampoule {
+      outline: 3px solid #fef08a;
     }
 
-    .current-label {
-      font-size: 14px;
-      color: #fde047;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .colors-row {
+    .couleurs {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 16px;
+      margin: 14px 0 16px 0;
     }
 
-    .color-swatch {
-      width: 62px;
+    .btn-couleur {
+      width: 60px;
       height: 44px;
       border-radius: 12px;
       border: 2px solid #ffffff;
       cursor: pointer;
-      padding: 0;
     }
 
-    .validate-btn {
+    .btn-valider {
       width: 100%;
       padding: 13px;
-      border-radius: 12px;
-      border: 2px solid #fef08a;
-      background: #dc2626;
-      color: #ffffff;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: bold;
+      color: #ffffff;
+      background: #dc2626;
+      border: 2px solid #fef08a;
+      border-radius: 12px;
       cursor: pointer;
     }
 
-    .message {
+    #retour {
       margin-top: 12px;
-      min-height: 20px;
       font-size: 14px;
       color: #fde68a;
+      min-height: 20px;
     }
 
-    .win-box {
+    #victoire {
       display: none;
       margin-top: 14px;
-      padding: 16px;
-      border-radius: 14px;
+      padding: 14px;
+      border-radius: 12px;
       background: rgba(220, 38, 38, 0.45);
-      border: 2
+      border: 2px solid #fde047;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="boite">
+    <div>🎅 Lutins &amp; Neige de Noël 🎄</div>
+    <h1>Oh une guirlande, viens on y va !</h1>
+    <p>Aide Lucile à trouver la plus belle disposition de couleurs pour allumer la guirlande</p>
+  </div>
+
+  <div class="boite">
+    <div class="guirlande">
+      <div class="fil"></div>
+
+      <button type="button" class="ampoule-bloc selectionnee" id="b0" onclick="choisirAmpoule(0)" style="margin-top:0px;">
+        <div class="douille"></div>
+        <div class="ampoule" id="a0"></div>
+      </button>
+
+      <button type="button" class="ampoule-bloc" id="b1" onclick="choisirAmpoule(1)" style="margin-top:8px;">
+        <div class="douille"></div>
+        <div class="ampoule" id="a1"></div>
+      </button>
+
+      <button type="button" class="ampoule-bloc" id="b2" onclick="choisirAmpoule(2)" style="margin-top:0px;">
+        <div class="douille"></div>
+        <div class="ampoule" id="a2"></div>
+      </button>
+
+      <button type="button" class="ampoule-bloc" id="b3" onclick="choisirAmpoule(3)" style="margin-top:8px;">
+        <div class="douille"></div>
+        <div class="ampoule" id="a3"></div>
+      </button>
+
+      <button type="button" class="ampoule-bloc" id="b4" onclick="choisirAmpoule(4)" style="margin-top:0px;">
+        <div class="douille"></div>
+        <div class="ampoule" id="a4"></div>
+      </button>
+    </div>
+  </div>
+
+  <div class="boite">
+    <div id="infoAmpoule" style="color:#fde047; font-weight:bold; font-size:14px;">Ampoule sélectionnée : n°1</div>
+
+    <!-- Ordre mélangé : rose, vert, jaune, bleu, orange -->
+    <div class="couleurs">
+      <button type="button" class="btn-couleur" onclick="peindre('rose', '#f472b6')" style="background:#f472b6;"></button>
+      <button type="button" class="btn-couleur" onclick="peindre('vert', '#22c55e')" style="background:#22c55e;"></button>
+      <button type="button" class="btn-couleur" onclick="peindre('jaune', '#facc15')" style="background:#facc15;"></button>
+      <button type="button" class="btn-couleur" onclick="peindre('bleu', '#3b82f6')" style="background:#3b82f6;"></button>
+      <button type="button" class="btn-couleur" onclick="peindre('orange', '#f97316')" style="background:#f97316;"></button>
+    </div>
+
+    <button type="button" class="btn-valider" onclick="valider()">Valider ma guirlande</button>
+    <div id="retour"></div>
+
+    <div id="victoire">
+      Youpi, merci beaucoup ! Tu peux aller voir dans la chaussette magique si jamais un lutin n'y aurait pas laissé une surprise...
+    </div>
+  </div>
+
+  <script>
+    // Bonne disposition attendue (de gauche à droite) :
+    var BONNE_REPONSE = ["jaune", "bleu", "rose", "orange", "vert"];
+    var ampouleActive = 0;
+    var couleursChoisies = ["", "", "", "", ""];
+    var gagne = false;
+
+    function choisirAmpoule(index) {
+      if (gagne) return;
+      ampouleActive = index;
+      document.getElementById("retour").innerText = "";
+      document.getElementById("infoAmpoule").innerText = "Ampoule sélectionnée : n°" + (index + 1);
+      for (var i = 0; i < 5; i++) {
+        var bloc = document.getElementById("b" + i);
+        bloc.className = (i === ampouleActive) ? "ampoule-bloc selectionnee" : "ampoule-bloc";
+      }
+    }
+
+    function peindre(nomCouleur, hex) {
+      if (gagne) return;
+      couleursChoisies[ampouleActive] = nomCouleur;
+      var amp = document.getElementById("a" + ampouleActive);
+      amp.style.backgroundColor = hex;
+      amp.style.boxShadow = "0 0 10px " + hex;
+      document.getElementById("retour").innerText = "";
+
+      var suivante = (ampouleActive + 1) % 5;
+      choisirAmpoule(suivante);
+    }
+
+    function valider() {
+      if (gagne) return;
+      for (var i = 0; i < 5; i++) {
+        if (couleursChoisies[i] === "") {
+          document.getElementById("retour").innerText = "Choisis une couleur pour chacune des 5 ampoules.";
+          return;
+        }
+      }
+
+      var ok = true;
+      for (var j = 0; j < 5; j++) {
+        if (couleursChoisies[j] !== BONNE_REPONSE[j]) {
+          ok = false;
+        }
+      }
+
+      if (ok) {
+        gagne = true;
+        document.getElementById("retour").innerText = "";
+        document.getElementById("infoAmpoule").innerText = "✨ La guirlande est allumée !";
+        document.getElementById("victoire").style.display = "block";
+      } else {
+        document.getElementById("retour").innerText = "Ce n'est pas encore tout à fait ça... essaie encore !";
+      }
+    }
+  </script>
+</body>
+</html>
