@@ -14,20 +14,29 @@
       margin: 0;
       min-height: 100dvh;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      color: #fefce8;
+      color: #fffbeb;
       background:
-        radial-gradient(circle at 20% 10%, rgba(220, 38, 38, 0.22), transparent 42%),
-        radial-gradient(circle at 80% 15%, rgba(250, 204, 21, 0.18), transparent 42%),
-        linear-gradient(180deg, #0c2920 0%, #11382c 55%, #071612 100%);
+        radial-gradient(circle at 15% 12%, rgba(239, 68, 68, 0.35), transparent 45%),
+        radial-gradient(circle at 85% 18%, rgba(250, 204, 21, 0.28), transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(22, 163, 74, 0.35), transparent 55%),
+        repeating-linear-gradient(
+          45deg,
+          rgba(220, 38, 38, 0.07) 0px,
+          rgba(220, 38, 38, 0.07) 18px,
+          rgba(22, 163, 74, 0.07) 18px,
+          rgba(22, 163, 74, 0.07) 36px
+        ),
+        linear-gradient(180deg, #5c0f18 0%, #14452f 52%, #092418 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 22px 14px 42px;
+      padding: 22px 14px 44px;
       position: relative;
       overflow-x: hidden;
     }
 
-    .snow-layer {
+    /* Décoration kitsch de Noël en arrière-plan */
+    .kitsch-bg {
       position: fixed;
       inset: 0;
       pointer-events: none;
@@ -35,23 +44,44 @@
       z-index: 0;
     }
 
+    .kitsch-item {
+      position: absolute;
+      user-select: none;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+      animation: bob 4.5s ease-in-out infinite;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-7px) rotate(3deg); }
+    }
+
+    /* Neige qui tombe */
+    .snow-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
     .snowflake {
       position: absolute;
       top: -14px;
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255, 255, 255, 0.85);
       user-select: none;
       animation: fall linear infinite;
     }
 
     @keyframes fall {
       0% { transform: translateY(-14px) translateX(0); }
-      50% { transform: translateY(50dvh) translateX(10px); }
+      50% { transform: translateY(50dvh) translateX(12px); }
       100% { transform: translateY(106dvh) translateX(-10px); }
     }
 
     .container {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       width: 100%;
       max-width: 460px;
       display: flex;
@@ -61,41 +91,43 @@
 
     .holiday-badge {
       font-size: 0.78rem;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
-      color: #fde047;
-      background: rgba(220, 38, 38, 0.28);
-      border: 1px solid rgba(253, 224, 71, 0.35);
-      padding: 4px 12px;
+      color: #fef08a;
+      background: rgba(185, 28, 28, 0.72);
+      border: 1.5px solid rgba(253, 224, 71, 0.55);
+      padding: 5px 14px;
       border-radius: 999px;
       margin-bottom: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
 
     h1 {
       margin: 4px 0 8px;
-      font-size: 1.45rem;
+      font-size: 1.48rem;
       line-height: 1.25;
       text-align: center;
       color: #fffbeb;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
     }
 
     .subtitle {
       margin: 0 0 18px;
-      font-size: 0.95rem;
+      font-size: 0.96rem;
       line-height: 1.4;
-      color: #e2e8f0;
+      color: #fef9c3;
       text-align: center;
-      max-width: 410px;
+      max-width: 415px;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
     }
 
     .garland-wrap {
       width: 100%;
-      background: rgba(9, 24, 19, 0.78);
-      border: 1px solid rgba(253, 224, 71, 0.28);
+      background: rgba(20, 46, 33, 0.82);
+      border: 2px solid rgba(253, 224, 71, 0.42);
       border-radius: 22px;
       padding: 14px 10px 18px;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
       margin-bottom: 18px;
     }
 
@@ -146,7 +178,7 @@
       height: 8px;
       background: #1e293b;
       border-radius: 3px 3px 0 0;
-      border: 1px solid #cbd5e1;
+      border: 1px solid #e2e8f0;
     }
 
     .bulb {
@@ -175,327 +207,7 @@
 
     .panel {
       width: 100%;
-      background: rgba(9, 24, 19, 0.78);
-      border: 1px solid rgba(253, 224, 71, 0.28);
+      background: rgba(20, 46, 33, 0.84);
+      border: 2px solid rgba(253, 224, 71, 0.42);
       border-radius: 20px;
-      padding: 18px 16px;
-      text-align: center;
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
-    }
-
-    .active-info {
-      font-size: 0.92rem;
-      margin-bottom: 14px;
-      color: #fde68a;
-      font-weight: 600;
-    }
-
-    .palette {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .color-btn {
-      width: 68px;
-      height: 46px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      border-radius: 14px;
-      cursor: pointer;
-      box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.35), 0 4px 10px rgba(0, 0, 0, 0.28);
-      transition: transform 0.12s ease, border-color 0.15s ease;
-    }
-
-    .color-btn:active {
-      transform: scale(0.94);
-    }
-
-    .color-btn.active-color {
-      border-color: #ffffff;
-      transform: scale(1.06);
-    }
-
-    .validate-btn {
-      width: 100%;
-      padding: 13px 18px;
-      border: none;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #eab308, #f59e0b);
-      color: #141b17;
-      font-size: 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.35);
-    }
-
-    .validate-btn:active {
-      transform: scale(0.98);
-    }
-
-    .feedback {
-      min-height: 22px;
-      margin-top: 12px;
-      font-size: 0.9rem;
-      color: #fecaca;
-    }
-
-    .reward {
-      display: none;
-      margin-top: 16px;
-      padding: 18px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(250, 204, 21, 0.22), rgba(220, 38, 38, 0.22));
-      border: 1px solid rgba(253, 224, 71, 0.65);
-      text-align: center;
-    }
-
-    .reward.show {
-      display: block;
-    }
-
-    .digit-badge {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 8px 18px;
-      border-radius: 12px;
-      background: #fde047;
-      color: #141b17;
-      font-size: 1.45rem;
-      font-weight: 800;
-    }
-  </style>
-</head>
-<body>
-  <div class="snow-layer" id="snowLayer" aria-hidden="true"></div>
-
-  <main class="container">
-    <div class="holiday-badge">❄️ Calendrier de l'Avent ❄️</div>
-    <h1>Oh une guirlande, viens on y va !</h1>
-    <p class="subtitle">Aide Lucile à trouver la plus belle disposition de couleurs pour allumer la guirlande</p>
-
-    <section class="garland-wrap" aria-label="Guirlande lumineuse">
-      <div class="garland-stage" id="garlandStage">
-        <svg class="wire-svg" id="wireSvg" viewBox="0 0 440 122" preserveAspectRatio="none"></svg>
-        <div id="bulbsContainer"></div>
-      </div>
-    </section>
-
-    <section class="panel" id="panelBox">
-      <div class="active-info" id="activeInfo">Ampoule sélectionnée : n°1</div>
-      <div class="palette" id="palette"></div>
-      <button class="validate-btn" id="validateBtn" type="button">✨ Valider ma guirlande</button>
-      <div class="feedback" id="feedback"></div>
-
-      <div class="reward" id="rewardBox">
-        <div>🎄 Magnifique, la guirlande brille !</div>
-        <div id="rewardText" style="margin-top: 6px; font-size: 0.95rem;"></div>
-        <div class="digit-badge" id="rewardCode"></div>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    const CONFIG = {
-      paletteOrder: ["rose", "vert", "jaune", "bleu", "orange"],
-      colors: {
-        jaune:  { hex: "#facc15", aria: "Jaune" },
-        bleu:   { hex: "#3b82f6", aria: "Bleu" },
-        rose:   { hex: "#f472b6", aria: "Rose" },
-        orange: { hex: "#f97316", aria: "Orange" },
-        vert:   { hex: "#22c55e", aria: "Vert" }
-      },
-      bulbs: [
-        { leftPct: 12, topPx: 22, answer: "jaune" },
-        { leftPct: 31, topPx: 14, answer: "bleu" },
-        { leftPct: 50, topPx: 24, answer: "rose" },
-        { leftPct: 69, topPx: 14, answer: "orange" },
-        { leftPct: 88, topPx: 22, answer: "vert" }
-      ],
-      tryAgainMessage: "Pas tout à fait cette disposition... continue de chercher avec Lucile !",
-      rewardMessage: "Voici ton indice pour le code final :",
-      rewardCode: "★ Chiffre : 7"
-    };
-
-    const state = {
-      selectedIndex: 0,
-      assigned: Array(CONFIG.bulbs.length).fill(null),
-      isWon: false
-    };
-
-    const bulbsContainerEl = document.getElementById("bulbsContainer");
-    const wireSvgEl = document.getElementById("wireSvg");
-    const paletteEl = document.getElementById("palette");
-    const activeInfoEl = document.getElementById("activeInfo");
-    const validateBtnEl = document.getElementById("validateBtn");
-    const panelBoxEl = document.getElementById("panelBox");
-    const feedbackEl = document.getElementById("feedback");
-    const rewardBoxEl = document.getElementById("rewardBox");
-    const rewardTextEl = document.getElementById("rewardText");
-    const rewardCodeEl = document.getElementById("rewardCode");
-    const snowLayerEl = document.getElementById("snowLayer");
-
-    function createSnow() {
-      for (let i = 0; i < 24; i++) {
-        const flake = document.createElement("div");
-        flake.className = "snowflake";
-        flake.textContent = i % 3 === 0 ? "✦" : "❄";
-        flake.style.left = `${Math.random() * 100}%`;
-        flake.style.fontSize = `${10 + Math.random() * 10}px`;
-        flake.style.opacity = `${0.35 + Math.random() * 0.55}`;
-        const duration = 7 + Math.random() * 8;
-        flake.style.animationDuration = `${duration}s`;
-        flake.style.animationDelay = `-${Math.random() * duration}s`;
-        snowLayerEl.appendChild(flake);
-      }
-    }
-
-    function updateWirePath() {
-      const stageRect = bulbsContainerEl.parentElement.getBoundingClientRect();
-      const w = Math.max(280, Math.round(stageRect.width) || 440);
-      const points = CONFIG.bulbs.map(b => ({
-        x: (b.leftPct / 100) * w,
-        y: b.topPx + 2
-      }));
-
-      wireSvgEl.setAttribute("viewBox", `0 0 ${w} 122`);
-
-      let d = `M 0,${Math.max(8, points[0].y - 8)}`;
-      points.forEach((pt, i) => {
-        const prevX = i === 0 ? 0 : points[i - 1].x;
-        const prevY = i === 0 ? Math.max(8, pt.y - 8) : points[i - 1].y;
-        const ctrlX = (prevX + pt.x) / 2;
-        const ctrlY = Math.max(prevY, pt.y) + 12;
-        d += ` Q ${ctrlX},${ctrlY} ${pt.x},${pt.y}`;
-      });
-      const last = points[points.length - 1];
-      d += ` Q ${(last.x + w) / 2},${last.y + 10} ${w},${Math.max(8, last.y - 8)}`;
-
-      wireSvgEl.innerHTML = `<path d="${d}" fill="none" stroke="#cbd5e1" stroke-width="3.5" stroke-linecap="round" />`;
-    }
-
-    function renderGarland() {
-      bulbsContainerEl.innerHTML = "";
-      CONFIG.bulbs.forEach((bulbCfg, idx) => {
-        const slot = document.createElement("div");
-        slot.className = "bulb-slot";
-        slot.style.left = `${bulbCfg.leftPct}%`;
-        slot.style.top = `${bulbCfg.topPx}px`;
-        if (idx === state.selectedIndex && !state.isWon) {
-          slot.classList.add("selected");
-        }
-
-        const socket = document.createElement("div");
-        socket.className = "socket";
-
-        const bulb = document.createElement("div");
-        bulb.className = "bulb";
-        const colorId = state.assigned[idx];
-
-        if (colorId && CONFIG.colors[colorId]) {
-          const hex = CONFIG.colors[colorId].hex;
-          bulb.style.backgroundColor = hex;
-          if (state.isWon) {
-            bulb.classList.add("celebrate");
-            bulb.style.boxShadow = `0 0 24px ${hex}, 0 0 44px ${hex}`;
-          } else {
-            bulb.style.boxShadow = `0 0 10px ${hex}88`;
-          }
-        }
-
-        slot.append(socket, bulb);
-        slot.addEventListener("click", () => {
-          if (state.isWon) return;
-          state.selectedIndex = idx;
-          feedbackEl.textContent = "";
-          render();
-        });
-
-        bulbsContainerEl.appendChild(slot);
-      });
-
-      updateWirePath();
-    }
-
-    function renderPalette() {
-      paletteEl.innerHTML = "";
-      const currentBulbColor = state.assigned[state.selectedIndex];
-
-      CONFIG.paletteOrder.forEach(colorId => {
-        const c = CONFIG.colors[colorId];
-        if (!c) return;
-
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "color-btn";
-        btn.setAttribute("aria-label", c.aria);
-        btn.style.backgroundColor = c.hex;
-        btn.disabled = state.isWon;
-
-        if (currentBulbColor === colorId && !state.isWon) {
-          btn.classList.add("active-color");
-        }
-
-        btn.addEventListener("click", () => {
-          if (state.isWon) return;
-          state.assigned[state.selectedIndex] = colorId;
-          feedbackEl.textContent = "";
-          state.selectedIndex = (state.selectedIndex + 1) % CONFIG.bulbs.length;
-          render();
-        });
-
-        paletteEl.appendChild(btn);
-      });
-    }
-
-    function validateCombination() {
-      if (state.isWon) return;
-
-      const hasEmpty = state.assigned.some(val => !val);
-      if (hasEmpty) {
-        feedbackEl.textContent = "Place d'abord une couleur sur chacune des 5 ampoules.";
-        panelBoxEl.classList.remove("shake");
-        void panelBoxEl.offsetWidth;
-        panelBoxEl.classList.add("shake");
-        return;
-      }
-
-      const isExactMatch = CONFIG.bulbs.every(
-        (bulbCfg, idx) => state.assigned[idx] === bulbCfg.answer
-      );
-
-      if (isExactMatch) {
-        state.isWon = true;
-        feedbackEl.textContent = "";
-        validateBtnEl.style.display = "none";
-        paletteEl.style.display = "none";
-        activeInfoEl.textContent = "✨ Joyeux Noël ! La guirlande est illuminée !";
-        rewardTextEl.textContent = CONFIG.rewardMessage;
-        rewardCodeEl.textContent = CONFIG.rewardCode;
-        rewardBoxEl.classList.add("show");
-        renderGarland();
-      } else {
-        feedbackEl.textContent = CONFIG.tryAgainMessage;
-        panelBoxEl.classList.remove("shake");
-        void panelBoxEl.offsetWidth;
-        panelBoxEl.classList.add("shake");
-      }
-    }
-
-    function render() {
-      renderGarland();
-      renderPalette();
-      if (!state.isWon) {
-        activeInfoEl.textContent = `Ampoule sélectionnée : n°${state.selectedIndex + 1}`;
-      }
-    }
-
-    validateBtnEl.addEventListener("click", validateCombination);
-    window.addEventListener("resize", updateWirePath);
-
-    createSnow();
-    render();
-  </script>
-</body>
-</html>
+      padding: 18px 1
