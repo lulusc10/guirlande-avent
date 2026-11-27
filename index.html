@@ -19,27 +19,41 @@
 
     .snow-layer {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       overflow: hidden;
       z-index: 0;
     }
 
     .snowflake {
-      position: absolute;
-      top: -20px;
+      position: fixed;
+      top: -24px;
       color: #ffffff;
-      animation: fall linear infinite;
+      pointer-events: none;
+      user-select: none;
+      animation-name: fallSnow;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
     }
 
-    @keyframes fall {
-      from { transform: translateY(-20px); }
-      to { transform: translateY(105vh); }
+    @keyframes fallSnow {
+      0% {
+        transform: translateY(-24px) translateX(0px);
+      }
+      50% {
+        transform: translateY(50vh) translateX(10px);
+      }
+      100% {
+        transform: translateY(108vh) translateX(-10px);
+      }
     }
 
     .boite {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       max-width: 440px;
       margin: 0 auto 16px auto;
       background: rgba(12, 32, 22, 0.9);
@@ -109,6 +123,8 @@
     }
 
     .couleurs {
+      position: relative;
+      z-index: 3;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
@@ -117,14 +133,19 @@
     }
 
     .btn-couleur {
+      position: relative;
+      z-index: 3;
       width: 60px;
       height: 44px;
       border-radius: 12px;
       border: 2px solid #ffffff;
       cursor: pointer;
+      touch-action: manipulation;
     }
 
     .btn-valider {
+      position: relative;
+      z-index: 3;
       width: 100%;
       padding: 13px;
       font-size: 16px;
@@ -133,6 +154,20 @@
       background: #dc2626;
       border: 2px solid #fef08a;
       border-radius: 12px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .btn-stop-son {
+      display: none;
+      margin: 10px auto 0 auto;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #142018;
+      background: #fde047;
+      border: none;
+      border-radius: 10px;
       cursor: pointer;
     }
 
@@ -199,15 +234,16 @@
 
     <!-- Ordre mélangé : rose, vert, jaune, bleu, orange -->
     <div class="couleurs">
-      <button type="button" class="btn-couleur" onclick="peindre('rose', '#f472b6')" style="background:#f472b6;"></button>
-      <button type="button" class="btn-couleur" onclick="peindre('vert', '#22c55e')" style="background:#22c55e;"></button>
-      <button type="button" class="btn-couleur" onclick="peindre('jaune', '#facc15')" style="background:#facc15;"></button>
-      <button type="button" class="btn-couleur" onclick="peindre('bleu', '#3b82f6')" style="background:#3b82f6;"></button>
-      <button type="button" class="btn-couleur" onclick="peindre('orange', '#f97316')" style="background:#f97316;"></button>
+      <button type="button" class="btn-couleur" data-color="rose" data-hex="#f472b6" style="background:#f472b6;"></button>
+      <button type="button" class="btn-couleur" data-color="vert" data-hex="#22c55e" style="background:#22c55e;"></button>
+      <button type="button" class="btn-couleur" data-color="jaune" data-hex="#facc15" style="background:#facc15;"></button>
+      <button type="button" class="btn-couleur" data-color="bleu" data-hex="#3b82f6" style="background:#3b82f6;"></button>
+      <button type="button" class="btn-couleur" data-color="orange" data-hex="#f97316" style="background:#f97316;"></button>
     </div>
 
-    <button type="button" class="btn-valider" onclick="valider()">Valider ma guirlande</button>
+    <button type="button" class="btn-valider" id="btnValider">Valider ma guirlande</button>
     <div id="retour"></div>
+    <button type="button" class="btn-stop-son" id="btnStopSon">🔇 Couper le son</button>
 
     <div id="victoire">
       Youpi, merci beaucoup ! Tu peux aller voir dans la chaussette magique si jamais un lutin n'y aurait pas laissé une surprise...
@@ -224,6 +260,7 @@
     // Mélodie synthétisée ("Never Gonna Give You Up") sans fichier externe
     var audioCtx = null;
     var timersSon = [];
+    var btnStopSon = document.getElementById("btnStopSon");
 
     // [fréquence en Hz, durée en secondes, délai avant la note suivante en secondes]
     var MELODIE = [
@@ -245,8 +282,4 @@
       [329.63, 0.36, 0.48]  // E4
     ];
 
-    function stopperSon() {
-      for (var i = 0; i < timersSon.length; i++) {
-        clearTimeout(timersSon[i]);
-      }
-      timersSon = [];
+    function stopperSon()
