@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>La Guirlande Secrète</title>
+  <style>
+    :root {
+      --bg-1: #0b132b;
+      --bg-2: #1c2541;
+      --card: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.16);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --accent: #fbbf24;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top, var(--bg-2), var(--bg-1) 70%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 36px;
+    }
+
+    h1 {
+      margin: 4px 0 6px;
+      font-size: 1.5rem;
+      text-align: center;
+      letter-spacing: 0.3px;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      font-size: 0.95rem;
+      color: var(--muted);
+      text-align: center;
+      max-width: 420px;
+    }
+
+    /* Fil de la guirlande */
+    .garland-wrap {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 18px 12px 22px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.35);
+      margin-bottom: 18px;
+    }
+
+    .wire {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px 10px;
+      padding-top: 12px;
+    }
+
+    .bulb-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.15s ease;
+    }
+
+    .bulb-slot:active {
+      transform: scale(0.96);
+    }
+
+    .bulb-slot.selected .socket {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+
+    .socket {
+      width: 18px;
+      height: 10px;
+      background: #334155;
+      border-radius: 3px 3px 0 0;
+      border: 1px solid #64748b;
+    }
+
+    .bulb {
+      width: 48px;
+      height: 62px;
+      border-radius: 50% 50% 42% 42% / 60% 60% 35% 35%;
+      background: #334155;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.75);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .bulb.lit {
+      color: #0f172a;
+      border-color: #fff;
+      transform: scale(1.05);
+    }
+
+    .bulb-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .bulb-slot.locked .bulb-label::after {
+      content: " ✓";
+      color: #4ade80;
+      font-weight: 700;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .shake {
+      animation: shake 0.28s ease;
+    }
+
+    /* Sélecteur de couleurs */
+    .panel {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .active-info {
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+      color: #fde68a;
+      font-weight: 600;
+    }
+
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .color-btn {
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      border-radius: 14px;
+      padding: 12px 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0f172a;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.2s ease;
+    }
+
+    .color-btn:active {
+      transform: scale(0.95);
+    }
+
+    .color-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .feedback {
+      min-height: 22px;
+      font-size: 0.88rem;
+      color: #fca5a5;
+    }
+
+    .feedback.ok {
+      color: #86efac;
+    }
+
+    /* Coffre final */
+    .reward {
+      display: none;
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(34, 197, 94, 0.18));
+      border: 1px solid rgba(251, 191, 36, 0.6);
+      text-align: center;
+    }
+
+    .reward.show {
+      display: block;
+    }
+
+    .digit-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 18px;
+      border-radius: 12px;
+      background: #fbbf24;
+      color: #0f172a;
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎄 La Guirlande Secrète</h1>
+  <p class="subtitle">Sélectionne une ampoule et choisis la bonne couleur trouvée dans tes cartes pour allumer toute la guirlande !</p>
+
+  <div class="garland-wrap">
+    <div class="wire" id="garland"></div>
+  </div>
+
+  <div class="panel">
+    <div class="active-info" id="activeInfo">Ampoule n°1 sélectionnée</div>
+    <div class="palette" id="palette"></div>
+    <div class="feedback" id="feedback"></div>
+
+    <div class="reward" id="rewardBox">
+      <div>✨ Toutes les ampoules sont allumées !</div>
+      <div id="rewardText" style="margin-top: 6px; font-size: 0.95rem;"></div>
+      <div class="digit-badge" id="rewardCode"></div>
+    </div>
+  </div>
+
+  <script>
+    // === PERSONNALISE ICI ===
+    const CONFIG = {
+      // Couleurs proposées (clé = identifiant interne, label = nom affiché, hex = couleur visuelle)
+      colors: [
+        { id: "rouge",  label: "Rouge",  hex: "#ef4444" },
+        { id: "bleu",   label: "Bleu",   hex: "#3b82f6" },
+        { id: "vert",   label: "Vert",   hex: "#22c55e" },
+        { id: "jaune",  label: "Jaune",  hex: "#facc15" },
+        { id: "violet", label: "Violet", hex: "#a855f7" },
+        { id: "orange", label: "Orange", hex: "#f97316" }
+      ],
+      // Les 6 ampoules et leur bonne couleur attendue
+      bulbs: [
+        { number: 1, answer: "rouge" },
+        { number: 2, answer: "bleu" },
+        { number: 3, answer: "jaune" },
+        { number: 4, answer: "vert" },
+        { number: 5, answer: "violet" },
+        { number: 6, answer: "orange" }
+      ],
+      // Ce qui s'affiche quand les 6 ampoules sont allumées
+      rewardMessage: "Voici ton indice pour le code final :",
+      rewardCode: "★ Chiffre : 7"
+    };
+
+    const state = {
+      selectedIndex: 0,
+      solved: Array(CONFIG.bulbs.length).fill(false),
+      chosenColor: Array(CONFIG.bulbs.length).fill(null)
+    };
+
+    const garlandEl = document.getElementById("garland");
+    const paletteEl = document.getElementById("palette");
+    const activeInfoEl = document.getElementById("activeInfo");
+    const feedbackEl = document.getElementById("feedback");
+    const rewardBoxEl = document.getElementById("rewardBox");
+    const rewardTextEl = document.getElementById("rewardText");
+    const rewardCodeEl = document.getElementById("rewardCode");
+
+    function getColorObj(id) {
+      return CONFIG.colors.find(c => c.id === id);
+    }
+
+    function renderGarland() {
+      garlandEl.innerHTML = "";
+      CONFIG.bulbs.forEach((bulbCfg, idx) => {
+        const slot = document.createElement("div");
+        slot.className = "bulb-slot";
+        if (idx === state.selectedIndex) slot.classList.add("selected");
+        if (state.solved[idx]) slot.classList.add("locked");
+
+        const socket = document.createElement("div");
+        socket.className = "socket";
+
+        const bulb = document.createElement("div");
+        bulb.className = "bulb";
+        bulb.textContent = bulbCfg.number;
+
+        if (state.solved[idx]) {
+          const c = getColorObj(bulbCfg.answer);
+          bulb.classList.add("lit");
+          bulb.style.background = c.hex;
+          bulb.style.boxShadow = `0 0 22px ${c.hex}, 0 0 40px ${c.hex}88`;
+        }
+
+        const label = document.createElement("div");
+        label.className = "bulb-label";
+        label.textContent = `Ampoule ${bulbCfg.number}`;
+
+        slot.append(socket, bulb, label);
+        slot.addEventListener("click", () => {
+          state.selectedIndex = idx;
+          feedbackEl.textContent = "";
+          feedbackEl.className = "feedback";
+          render();
+        });
+
+        garlandEl.appendChild(slot);
+      });
+    }
+
+    function renderPalette() {
+      paletteEl.innerHTML = "";
+      const allSolved = state.solved.every(Boolean);
+
+      CONFIG.colors.forEach(c => {
+        const btn = document.createElement("button");
+        btn.className = "color-btn";
+        btn.textContent = c.label;
+        btn.style.background = c.hex;
+        btn.disabled = allSolved || state.solved[state.selectedIndex];
+
+        btn.addEventListener("click", () => handleGuess(c));
+        paletteEl.appendChild(btn);
+      });
+    }
+
+    function handleGuess(colorObj) {
+      const idx = state.selectedIndex;
+      const expected = CONFIG.bulbs[idx].answer;
+      const slotEl = garlandEl.children[idx];
+
+      if (colorObj.id === expected) {
+        state.solved[idx] = true;
+        state.chosenColor[idx] = colorObj.id;
+        feedbackEl.textContent = `Ampoule ${CONFIG.bulbs[idx].number} allumée en ${colorObj.label.toLowerCase()} !`;
+        feedbackEl.className = "feedback ok";
+
+        // Sélectionne automatiquement la prochaine ampoule non résolue
+        const nextUnsolved = state.solved.findIndex(v => !v);
+        if (nextUnsolved !== -1) {
+          state.selectedIndex = nextUnsolved;
+        }
+      } else {
+        feedbackEl.textContent = `Pas tout à fait ! ${colorObj.label} ne convient pas pour l'ampoule ${CONFIG.bulbs[idx].number}.`;
+        feedbackEl.className = "feedback";
+        slotEl.classList.remove("shake");
+        void slotEl.offsetWidth;
+        slotEl.classList.add("shake");
+      }
+
+      render();
+    }
+
+    function render() {
+      renderGarland();
+      renderPalette();
+
+      const allSolved = state.solved.every(Boolean);
+      if (allSolved) {
+        activeInfoEl.textContent = "🎉 Bravo, la guirlande brille de mille feux !";
+        rewardTextEl.textContent = CONFIG.rewardMessage;
+        rewardCodeEl.textContent = CONFIG.rewardCode;
+        rewardBoxEl.classList.add("show");
+      } else {
+        const currentNum = CONFIG.bulbs[state.selectedIndex].number;
+        const statusTxt = state.solved[state.selectedIndex] ? " (déjà allumée)" : "";
+        activeInfoEl.textContent = `Ampoule n°${currentNum} sélectionnée${statusTxt}`;
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
