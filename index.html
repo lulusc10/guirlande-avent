@@ -2,212 +2,191 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Oh une guirlande, viens on y va !</title>
   <style>
     * {
       box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       margin: 0;
-      min-height: 100dvh;
+      min-height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       color: #fffbeb;
-      background:
-        radial-gradient(circle at 15% 12%, rgba(239, 68, 68, 0.35), transparent 45%),
-        radial-gradient(circle at 85% 18%, rgba(250, 204, 21, 0.28), transparent 45%),
-        radial-gradient(circle at 50% 85%, rgba(22, 163, 74, 0.35), transparent 55%),
-        repeating-linear-gradient(
-          45deg,
-          rgba(220, 38, 38, 0.07) 0px,
-          rgba(220, 38, 38, 0.07) 18px,
-          rgba(22, 163, 74, 0.07) 18px,
-          rgba(22, 163, 74, 0.07) 36px
-        ),
-        linear-gradient(180deg, #5c0f18 0%, #14452f 52%, #092418 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 22px 14px 44px;
+      background: linear-gradient(180deg, #6b111c 0%, #164a32 55%, #092418 100%);
+      padding: 20px 14px 40px;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* Décoration kitsch de Noël en arrière-plan */
-    .kitsch-bg {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
-
-    .kitsch-item {
-      position: absolute;
-      user-select: none;
-      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
-      animation: bob 4.5s ease-in-out infinite;
-    }
-
-    @keyframes bob {
-      0%, 100% { transform: translateY(0) rotate(-3deg); }
-      50% { transform: translateY(-7px) rotate(3deg); }
-    }
-
-    /* Neige qui tombe */
+    .kitsch-bg,
     .snow-layer {
       position: fixed;
       inset: 0;
       pointer-events: none;
       overflow: hidden;
+    }
+
+    .kitsch-bg {
+      z-index: 0;
+    }
+
+    .snow-layer {
       z-index: 1;
+    }
+
+    .kitsch-item {
+      position: absolute;
+      font-size: 28px;
+      opacity: 0.9;
     }
 
     .snowflake {
       position: absolute;
-      top: -14px;
-      color: rgba(255, 255, 255, 0.85);
-      user-select: none;
+      top: -20px;
+      color: #ffffff;
       animation: fall linear infinite;
     }
 
     @keyframes fall {
-      0% { transform: translateY(-14px) translateX(0); }
-      50% { transform: translateY(50dvh) translateX(12px); }
-      100% { transform: translateY(106dvh) translateX(-10px); }
+      from { transform: translateY(-20px); }
+      to { transform: translateY(105vh); }
     }
 
-    .container {
+    .app {
       position: relative;
       z-index: 2;
-      width: 100%;
-      max-width: 460px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .holiday-badge {
-      font-size: 0.78rem;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: #fef08a;
-      background: rgba(185, 28, 28, 0.72);
-      border: 1.5px solid rgba(253, 224, 71, 0.55);
-      padding: 5px 14px;
-      border-radius: 999px;
-      margin-bottom: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      max-width: 450px;
+      margin: 0 auto;
+      text-align: center;
     }
 
     h1 {
-      margin: 4px 0 8px;
-      font-size: 1.48rem;
+      margin: 6px 0 8px;
+      font-size: 23px;
       line-height: 1.25;
-      text-align: center;
-      color: #fffbeb;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
     }
 
     .subtitle {
       margin: 0 0 18px;
-      font-size: 0.96rem;
+      font-size: 15px;
       line-height: 1.4;
       color: #fef9c3;
-      text-align: center;
-      max-width: 415px;
-      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
     }
 
-    .garland-wrap {
-      width: 100%;
-      background: rgba(20, 46, 33, 0.82);
-      border: 2px solid rgba(253, 224, 71, 0.42);
-      border-radius: 22px;
-      padding: 14px 10px 18px;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
-      margin-bottom: 18px;
+    .box {
+      background: rgba(14, 36, 25, 0.88);
+      border: 2px solid #facc15;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
     }
 
-    .garland-stage {
+    .garland {
       position: relative;
+      height: 115px;
       width: 100%;
-      height: 122px;
     }
 
-    .wire-svg {
+    .wire {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
+      top: 22px;
+      left: 4%;
+      width: 92%;
+      height: 18px;
+      border-top: 4px solid #fef08a;
+      border-radius: 50%;
     }
 
-    #bulbsContainer {
+    .bulbs-row {
       position: relative;
-      width: 100%;
-      height: 100%;
       z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 14px 6px 0;
     }
 
-    .bulb-slot {
-      position: absolute;
-      transform: translate(-50%, 0);
+    .bulb-btn {
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      cursor: pointer;
-      user-select: none;
-      transition: transform 0.14s ease;
-    }
-
-    .bulb-slot:active {
-      transform: translate(-50%, 0) scale(0.95);
-    }
-
-    .bulb-slot.selected .bulb {
-      outline: 2.5px solid #ffffff;
-      outline-offset: 3px;
     }
 
     .socket {
-      width: 15px;
+      width: 14px;
       height: 8px;
       background: #1e293b;
-      border-radius: 3px 3px 0 0;
       border: 1px solid #e2e8f0;
+      border-radius: 3px 3px 0 0;
     }
 
     .bulb {
-      width: 44px;
-      height: 58px;
-      border-radius: 50% 50% 42% 42% / 60% 60% 35% 35%;
-      background-color: #475569;
-      border: 2px solid rgba(255, 255, 255, 0.45);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      width: 40px;
+      height: 54px;
+      border-radius: 50% 50% 42% 42%;
+      background-color: #64748b;
+      border: 2px solid #ffffff;
+      transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
     }
 
-    .bulb.celebrate {
+    .bulb-btn.selected .bulb {
       transform: scale(1.08);
-      border-color: #ffffff;
+      box-shadow: 0 0 0 3px #fef08a;
     }
 
-    @keyframes gentleShake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-6px); }
-      75% { transform: translateX(6px); }
+    .current-label {
+      font-size: 14px;
+      color: #fde047;
+      font-weight: 700;
+      margin-bottom: 12px;
     }
 
-    .shake {
-      animation: gentleShake 0.28s ease;
+    .colors-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
     }
 
-    .panel {
+    .color-swatch {
+      width: 62px;
+      height: 44px;
+      border-radius: 12px;
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .validate-btn {
       width: 100%;
-      background: rgba(20, 46, 33, 0.84);
-      border: 2px solid rgba(253, 224, 71, 0.42);
-      border-radius: 20px;
-      padding: 18px 1
+      padding: 13px;
+      border-radius: 12px;
+      border: 2px solid #fef08a;
+      background: #dc2626;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-top: 12px;
+      min-height: 20px;
+      font-size: 14px;
+      color: #fde68a;
+    }
+
+    .win-box {
+      display: none;
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(220, 38, 38, 0.45);
+      border: 2
