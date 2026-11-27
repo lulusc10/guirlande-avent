@@ -221,66 +221,32 @@
     var couleursChoisies = ["", "", "", "", ""];
     var gagne = false;
 
-    function choisirAmpoule(index) {
-      if (gagne) return;
-      ampouleActive = index;
-      document.getElementById("retour").innerText = "";
-      document.getElementById("infoAmpoule").innerText = "Ampoule sélectionnée : n°" + (index + 1);
-      for (var i = 0; i < 5; i++) {
-        var bloc = document.getElementById("b" + i);
-        bloc.className = (i === ampouleActive) ? "ampoule-bloc selectionnee" : "ampoule-bloc";
+    // Mélodie synthétisée ("Never Gonna Give You Up") sans fichier externe
+    var audioCtx = null;
+    var timersSon = [];
+
+    // [fréquence en Hz, durée en secondes, délai avant la note suivante en secondes]
+    var MELODIE = [
+      [293.66, 0.16, 0.20], // D4
+      [329.63, 0.16, 0.20], // E4
+      [440.00, 0.16, 0.20], // A4
+      [329.63, 0.16, 0.20], // E4
+      [493.88, 0.26, 0.34], // B4
+      [493.88, 0.26, 0.34], // B4
+      [440.00, 0.38, 0.52], // A4
+      [293.66, 0.16, 0.20], // D4
+      [329.63, 0.16, 0.20], // E4
+      [440.00, 0.16, 0.20], // A4
+      [329.63, 0.16, 0.20], // E4
+      [440.00, 0.26, 0.34], // A4
+      [440.00, 0.26, 0.34], // A4
+      [392.00, 0.22, 0.28], // G4
+      [369.99, 0.22, 0.28], // F#4
+      [329.63, 0.36, 0.48]  // E4
+    ];
+
+    function stopperSon() {
+      for (var i = 0; i < timersSon.length; i++) {
+        clearTimeout(timersSon[i]);
       }
-    }
-
-    function peindre(nomCouleur, hex) {
-      if (gagne) return;
-      couleursChoisies[ampouleActive] = nomCouleur;
-      var amp = document.getElementById("a" + ampouleActive);
-      amp.style.backgroundColor = hex;
-      amp.style.boxShadow = "0 0 10px " + hex;
-      document.getElementById("retour").innerText = "";
-
-      var suivante = (ampouleActive + 1) % 5;
-      choisirAmpoule(suivante);
-    }
-
-    function valider() {
-      if (gagne) return;
-      for (var i = 0; i < 5; i++) {
-        if (couleursChoisies[i] === "") {
-          document.getElementById("retour").innerText = "Choisis une couleur pour chacune des 5 ampoules.";
-          return;
-        }
-      }
-
-      var ok = true;
-      for (var j = 0; j < 5; j++) {
-        if (couleursChoisies[j] !== BONNE_REPONSE[j]) {
-          ok = false;
-        }
-      }
-
-      if (ok) {
-        gagne = true;
-        document.getElementById("retour").innerText = "";
-        document.getElementById("infoAmpoule").innerText = "✨ La guirlande est allumée !";
-        document.getElementById("victoire").style.display = "block";
-      } else {
-        document.getElementById("retour").innerText = "Ce n'est pas encore tout à fait ça... essaie encore !";
-      }
-    }
-
-    var snowEl = document.getElementById("snow");
-    for (var s = 0; s < 20; s++) {
-      var flake = document.createElement("div");
-      flake.className = "snowflake";
-      flake.innerText = "❄";
-      flake.style.left = ((s * 5) % 100) + "%";
-      flake.style.fontSize = (12 + (s % 4) * 3) + "px";
-      flake.style.animationDuration = (6 + (s % 5) * 2) + "s";
-      flake.style.animationDelay = -(s % 6) + "s";
-      snowEl.appendChild(flake);
-    }
-  </script>
-</body>
-</html>
+      timersSon = [];
